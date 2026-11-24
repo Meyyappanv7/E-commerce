@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopZone | Your Cart</title>
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">ShopZone</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="nav-right">
+            <a href="cart.html" class="cart-link">&#128722;<span class="cart-badge">0</span></a>
+            <a href="signin.html" class="login-btn">Login</a>
+        </div>
+    </header>
+
+    <section class="heading">
+        <h1>Your Cart</h1>
+    </section>
+
+    <div class="cart-layout">
+
+        <div class="cart-items" id="cartItems"></div>
+
+        <div class="summary">
+            <h2>Order Summary</h2>
+            <div class="summary-row"><span id="itemCountLabel">Items (0)</span><span id="subtotalVal">&#8377;0</span></div>
+            <div class="summary-row savings"><span>You save</span><span id="savingsVal">&#8377;0</span></div>
+            <div class="summary-row"><span>Delivery</span><span id="deliveryVal">&#8377;0</span></div>
+            <hr>
+            <div class="summary-total"><span>Total</span><span id="totalVal">&#8377;0</span></div>
+            <button class="checkout-btn" id="checkoutBtn" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 ShopZone. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        function render(){
+            const items = getCartDetails();
+            const container = document.getElementById("cartItems");
+
+            if(items.length === 0){
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <p>Your cart is empty.</p><br>
+                        <a href="product.html">Continue shopping &rarr;</a>
+                    </div>`;
+                document.getElementById("checkoutBtn").disabled = true;
+            }else{
+                container.innerHTML = items.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <h3>${item.name}</h3>
+                            <p class="sub">${item.subcategory}</p>
+                            <div class="qty-control">
+                                <button onclick="handleQty(${item.id}, ${item.qty - 1})">-</button>
+                                <input type="text" value="${item.qty}" readonly>
+                                <button onclick="handleQty(${item.id}, ${item.qty + 1})">+</button>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">
+                            <span class="price-now">&#8377;${item.price * item.qty}</span>
+                            <button class="remove-btn" onclick="handleRemove(${item.id})">Remove</button>
+                        </div>
+                    </div>
+                `).join("");
+                document.getElementById("checkoutBtn").disabled = false;
+            }
+
+            const totals = getCartTotals();
+            document.getElementById("itemCountLabel").textContent = `Items (${totals.itemCount})`;
+            document.getElementById("subtotalVal").textContent = "\u20B9" + totals.subtotal;
+            document.getElementById("savingsVal").textContent = "\u20B9" + totals.savings;
+            document.getElementById("deliveryVal").textContent = totals.delivery === 0 ? "Free" : "\u20B9" + totals.delivery;
+            document.getElementById("totalVal").textContent = "\u20B9" + totals.total;
+        }
+
+        function handleQty(id, qty){
+            updateQty(id, qty);
+            render();
+        }
+
+        function handleRemove(id){
+            removeFromCart(id);
+            render();
+        }
+
+        render();
+    </script>
+
+</body>
+</html>

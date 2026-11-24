@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopZone | Product</title>
+    <link rel="stylesheet" href="product-detail.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">ShopZone</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="nav-right">
+            <a href="cart.html" class="cart-link">&#128722;<span class="cart-badge">0</span></a>
+            <a href="signin.html" class="login-btn">Login</a>
+        </div>
+    </header>
+
+    <p class="breadcrumb">
+        <a href="product.html">Products</a> / <a href="#" id="crumbCategory">Category</a> / <span id="crumbName">Product</span>
+    </p>
+
+    <section class="product-main">
+
+        <div class="gallery">
+            <img id="productImage" src="" alt="Product image">
+        </div>
+
+        <div class="info">
+            <h1 id="productName">Product Name</h1>
+            <p class="sub-label" id="productSub">Category / Subcategory</p>
+
+            <div class="stars" id="productStars"></div>
+
+            <div class="price-row">
+                <span class="old-price" id="oldPrice"></span>
+                <span class="new-price" id="newPrice"></span>
+                <span class="discount-tag" id="discountTag"></span>
+            </div>
+
+            <p class="desc" id="productDesc"></p>
+
+            <div class="qty-row">
+                <span>Quantity</span>
+                <div class="qty-control">
+                    <button onclick="changeQty(-1)">-</button>
+                    <input type="text" id="qtyInput" value="1" readonly>
+                    <button onclick="changeQty(1)">+</button>
+                </div>
+            </div>
+
+            <p class="added-msg" id="addedMsg">&#10003; Added to cart!</p>
+
+            <div class="action-row">
+                <button class="add-cart-btn" onclick="handleAddToCart()">Add to Cart</button>
+                <button class="buy-now-btn" onclick="handleBuyNow()">Buy Now</button>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="tabs-section">
+
+        <div class="tab-buttons">
+            <button class="tab-btn active" data-tab="descTab">Description</button>
+            <button class="tab-btn" data-tab="specTab">Specifications</button>
+            <button class="tab-btn" data-tab="reviewTab">Reviews & Ratings</button>
+        </div>
+
+        <div class="tab-content active" id="descTab">
+            <p class="desc" id="fullDesc"></p>
+        </div>
+
+        <div class="tab-content" id="specTab">
+            <table class="spec-table" id="specTable"></table>
+        </div>
+
+        <div class="tab-content" id="reviewTab">
+            <div id="reviewList"></div>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 ShopZone. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get("id");
+        const product = getProductById(productId) || PRODUCTS[0];
+
+        function starString(rating){
+            const full = Math.round(rating);
+            return "&#9733;".repeat(full) + "&#9734;".repeat(5 - full);
+        }
+
+        document.title = "ShopZone | " + product.name;
+        document.getElementById("productImage").src = product.image;
+        document.getElementById("productImage").alt = product.name;
+        document.getElementById("productName").textContent = product.name;
+        document.getElementById("productSub").textContent =
+            (CATEGORIES[product.category] ? CATEGORIES[product.category].label : product.category) + " / " + product.subcategory;
+        document.getElementById("productStars").innerHTML =
+            starString(product.rating) + ` <span>${product.rating} (${product.ratingCount} ratings)</span>`;
+        document.getElementById("oldPrice").textContent = "\u20B9" + product.oldPrice;
+        document.getElementById("newPrice").textContent = "\u20B9" + product.price;
+
+        const discountPct = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+        document.getElementById("discountTag").textContent = discountPct + "% off";
+
+        document.getElementById("productDesc").textContent = product.description;
+        document.getElementById("fullDesc").textContent = product.description;
+
+        document.getElementById("crumbCategory").textContent =
+            CATEGORIES[product.category] ? CATEGORIES[product.category].label : product.category;
+        document.getElementById("crumbCategory").href = "category.html?cat=" + product.category;
+        document.getElementById("crumbName").textContent = product.name;
+
+        const specTable = document.getElementById("specTable");
+        specTable.innerHTML = Object.entries(product.specs).map(([key, val]) =>
+            `<tr><td>${key}</td><td>${val}</td></tr>`
+        ).join("");
+
+        const reviewList = document.getElementById("reviewList");
+        if(product.reviews && product.reviews.length){
+            reviewList.innerHTML = product.reviews.map(r => `
+                <div class="review-card">
+                    <div class="rname">${r.user}</div>
+                    <div class="stars">${starString(r.rating)}</div>
+                    <p>${r.comment}</p>
+                </div>
+            `).join("");
+        }else{
+            reviewList.innerHTML = `<p class="desc">No reviews yet for this product.</p>`;
+        }
+
+        // Tabs
+        document.querySelectorAll(".tab-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+                document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+                btn.classList.add("active");
+                document.getElementById(btn.dataset.tab).classList.add("active");
+            });
+        });
+
+        // Quantity
+        function changeQty(delta){
+            const input = document.getElementById("qtyInput");
+            let val = parseInt(input.value) + delta;
+            if(val < 1) val = 1;
+            input.value = val;
+        }
+
+        function handleAddToCart(){
+            const qty = parseInt(document.getElementById("qtyInput").value);
+            addToCart(product.id, qty);
+            const msg = document.getElementById("addedMsg");
+            msg.style.display = "block";
+            setTimeout(() => msg.style.display = "none", 2000);
+        }
+
+        function handleBuyNow(){
+            const qty = parseInt(document.getElementById("qtyInput").value);
+            addToCart(product.id, qty);
+            window.location.href = "checkout.html";
+        }
+    </script>
+
+</body>
+</html>

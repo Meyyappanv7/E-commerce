@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopZone | Category</title>
+    <link rel="stylesheet" href="category.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+
+        <div class="logo">ShopZone</div>
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="homepage.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="nav-right">
+            <a href="cart.html" class="cart-link">&#128722;<span class="cart-badge">0</span></a>
+            <a href="signin.html" class="login-btn">Login</a>
+        </div>
+
+    </header>
+
+    <p class="breadcrumb"><a href="product.html">Products</a> / <span id="crumbCategory">Category</span></p>
+
+    <section class="heading">
+        <h1 id="categoryTitle">Category</h1>
+        <p id="categorySubtitle">Browse products in this category</p>
+    </section>
+
+    <div class="subcat-tabs" id="subcatTabs"></div>
+
+    <section class="product-container" id="productContainer"></section>
+
+    <footer class="footer">
+        <p>&copy; 2026 ShopZone. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const catKey = params.get("cat") || "electronics";
+        let activeSub = params.get("sub") || "all";
+
+        const catInfo = CATEGORIES[catKey] || CATEGORIES.electronics;
+
+        document.getElementById("categoryTitle").textContent = catInfo.label;
+        document.getElementById("crumbCategory").textContent = catInfo.label;
+        document.getElementById("categorySubtitle").textContent =
+            "Explore our range of " + catInfo.label.toLowerCase() + " across every subcategory.";
+        document.title = "ShopZone | " + catInfo.label;
+
+        function renderTabs(){
+            const tabsEl = document.getElementById("subcatTabs");
+            let html = `<div class="subcat-tab ${activeSub === "all" ? "active" : ""}" data-sub="all">All</div>`;
+            catInfo.subcategories.forEach(sub => {
+                html += `<div class="subcat-tab ${activeSub === sub ? "active" : ""}" data-sub="${sub}">${sub}</div>`;
+            });
+            tabsEl.innerHTML = html;
+
+            tabsEl.querySelectorAll(".subcat-tab").forEach(tab => {
+                tab.addEventListener("click", () => {
+                    activeSub = tab.dataset.sub;
+                    renderTabs();
+                    renderProducts();
+                    const url = new URL(window.location);
+                    url.searchParams.set("sub", activeSub);
+                    window.history.replaceState({}, "", url);
+                });
+            });
+        }
+
+        function starString(rating){
+            const full = Math.round(rating);
+            return "&#9733;".repeat(full) + "&#9734;".repeat(5 - full);
+        }
+
+        function renderProducts(){
+            const container = document.getElementById("productContainer");
+            let items = PRODUCTS.filter(p => p.category === catKey);
+            if(activeSub !== "all"){
+                items = items.filter(p => p.subcategory === activeSub);
+            }
+
+            if(items.length === 0){
+                container.innerHTML = `<p class="empty-msg">No products found in this section yet.</p>`;
+                return;
+            }
+
+            container.innerHTML = items.map(p => `
+                <div class="product-card">
+                    <img src="${p.image}" alt="${p.name}">
+                    <h2>${p.name}</h2>
+                    <div class="stars">${starString(p.rating)} <span>(${p.ratingCount})</span></div>
+                    <p class="price">
+                        <span class="old-price">&#8377;${p.oldPrice}</span>
+                        <span class="new-price">&#8377;${p.price}</span>
+                    </p>
+                    <button class="view-btn" onclick="window.location.href='product-detail.html?id=${p.id}'">View Details</button>
+                </div>
+            `).join("");
+        }
+
+        renderTabs();
+        renderProducts();
+    </script>
+
+</body>
+</html>

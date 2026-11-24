@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopZone | Products</title>
+    <link rel="stylesheet" href="product.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+
+        <div class="logo">ShopZone</div>
+
+        <nav>
+            <ul class="nav-links">
+
+                <li><a href="homepage.html">Home</a></li>
+
+                <li><a href="product.html">Products</a></li>
+
+                <li><a href="about.html">About</a></li>
+
+                <li><a href="contact.html">Contact</a></li>
+
+            </ul>
+        </nav>
+
+        <div class="nav-right">
+            <a href="cart.html" class="cart-link">&#128722;<span class="cart-badge">0</span></a>
+            <a href="signin.html" class="login-btn">Login</a>
+        </div>
+
+    </header>
+
+    <!-- Page Heading -->
+
+    <section class="heading">
+
+        <h1>Our Products</h1>
+
+        <p>Find Premium Products at the Best Price</p>
+
+    </section>
+
+    <!-- Shop by Category -->
+
+    <section class="categories">
+
+        <h2>Shop by Category</h2>
+
+        <div class="category-grid" id="categoryGrid"></div>
+
+    </section>
+
+    <!-- Trending Products -->
+
+    <section class="section-title">
+        <h2>Trending Products</h2>
+        <p>Handpicked bestsellers across every category</p>
+    </section>
+
+    <section class="product-container" id="trendingContainer"></section>
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+        <p>&copy; 2026 ShopZone. All Rights Reserved.</p>
+
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        const catIcons = {
+            electronics: "&#128187;",
+            dresses: "&#128084;",
+            footwear: "&#128095;",
+            accessories: "&#128092;"
+        };
+
+        function starString(rating){
+            const full = Math.round(rating);
+            return "&#9733;".repeat(full) + "&#9734;".repeat(5 - full);
+        }
+
+        const categoryGrid = document.getElementById("categoryGrid");
+        categoryGrid.innerHTML = Object.entries(CATEGORIES).map(([key, cat]) => `
+            <a class="category-card" href="category.html?cat=${key}">
+                <span class="cat-icon">${catIcons[key] || "&#128722;"}</span>
+                <h3>${cat.label}</h3>
+                <p>${cat.subcategories.join(" &middot; ")}</p>
+            </a>
+        `).join("");
+
+        const trending = [...PRODUCTS].sort((a, b) => b.rating - a.rating).slice(0, 6);
+
+        document.getElementById("trendingContainer").innerHTML = trending.map(p => `
+            <div class="product-card">
+                <img src="${p.image}" alt="${p.name}">
+                <h2>${p.name}</h2>
+                <div class="stars">${starString(p.rating)} <span>(${p.ratingCount})</span></div>
+                <p class="price">
+                    <span class="old-price">&#8377;${p.oldPrice}</span>
+                    <span class="new-price">&#8377;${p.price}</span>
+                </p>
+                <button onclick="window.location.href='product-detail.html?id=${p.id}'">Buy Now</button>
+            </div>
+        `).join("");
+    </script>
+
+</body>
+</html>

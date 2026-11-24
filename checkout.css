@@ -1,0 +1,156 @@
+*{ margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI",sans-serif; }
+
+body{ background:#111; color:white; }
+a{ text-decoration:none; }
+
+.navbar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 80px; background:#1b1b1b; border-bottom:2px solid #FFD700;
+}
+.logo{ font-size:30px; color:#FFD700; font-weight:bold; }
+.nav-right{ display:flex; align-items:center; gap:25px; }
+.cart-link{ position:relative; color:white; font-size:22px; }
+.cart-badge{
+    position:absolute; top:-10px; right:-14px; background:#FFD700; color:#111;
+    font-size:12px; font-weight:bold; min-width:18px; height:18px; border-radius:50%;
+    display:none; align-items:center; justify-content:center; padding:0 4px;
+}
+
+/* Step indicator */
+.steps{
+    display:flex;
+    justify-content:center;
+    gap:0;
+    padding:35px 20px 10px;
+}
+
+.step{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#666;
+    font-size:14px;
+}
+
+.step .circle{
+    width:32px; height:32px; border-radius:50%;
+    background:#1b1b1b; border:2px solid #444;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:bold; color:#666;
+}
+
+.step.active .circle, .step.done .circle{
+    border-color:#FFD700; color:#FFD700;
+}
+
+.step.active span, .step.done span{ color:#FFD700; }
+
+.step-line{
+    width:60px; height:2px; background:#333; align-self:center; margin:0 10px;
+}
+
+.heading{ text-align:center; padding:15px 20px 20px; }
+.heading h1{ color:#FFD700; font-size:34px; }
+
+.checkout-layout{
+    width:90%;
+    max-width:1000px;
+    margin:10px auto 80px;
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+}
+
+.address-form{
+    flex:1;
+    background:#1b1b1b;
+    border:2px solid #333;
+    border-radius:15px;
+    padding:35px;
+}
+
+.address-form h2{ color:#FFD700; margin-bottom:22px; font-size:22px; }
+
+.form-row{
+    display:flex;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.form-group{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.form-group label{ color:#ccc; font-size:14px; }
+
+.form-group input, .form-group select, .form-group textarea{
+    background:#111;
+    border:2px solid #333;
+    border-radius:8px;
+    padding:12px 14px;
+    color:white;
+    font-size:15px;
+}
+
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus{
+    outline:none;
+    border-color:#FFD700;
+}
+
+.continue-btn{
+    width:100%;
+    padding:16px;
+    background:#FFD700;
+    color:#111;
+    border:none;
+    border-radius:10px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+    transition:.3s;
+}
+
+.continue-btn:hover{ background:white; }
+
+/* Summary reused */
+.summary{
+    width:320px;
+    background:#1b1b1b;
+    border:2px solid #FFD700;
+    border-radius:15px;
+    padding:30px;
+}
+
+.summary h2{ color:#FFD700; margin-bottom:18px; font-size:20px; }
+
+.summary-item{
+    display:flex;
+    justify-content:space-between;
+    color:#ccc;
+    font-size:14px;
+    margin-bottom:12px;
+}
+
+.summary-row{
+    display:flex; justify-content:space-between; color:#ccc; margin-bottom:12px; font-size:15px;
+}
+
+hr{ border:1px solid #333; margin:15px 0; }
+
+.summary-total{
+    display:flex; justify-content:space-between; color:#FFD700; font-size:19px; font-weight:bold;
+}
+
+.footer{ background:#1b1b1b; text-align:center; padding:25px; border-top:2px solid #FFD700; color:#bbb; }
+
+@media(max-width:900px){
+    .navbar{ flex-direction:column; gap:15px; padding:20px; }
+    .checkout-layout{ flex-direction:column; }
+    .summary{ width:100%; }
+    .form-row{ flex-direction:column; }
+    .steps{ flex-wrap:wrap; }
+}

@@ -1,0 +1,276 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    background:#111;
+    color:#fff;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 80px;
+    background:#1b1b1b;
+    border-bottom:2px solid #FFD700;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    color:#FFD700;
+}
+
+.nav-links{
+    display:flex;
+    list-style:none;
+    gap:35px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:white;
+    font-size:18px;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#FFD700;
+}
+
+.login-btn{
+    text-decoration:none;
+    background:#FFD700;
+    color:#111;
+    padding:12px 25px;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.login-btn:hover{
+    background:white;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.cart-link{
+    position:relative;
+    color:white;
+    font-size:22px;
+    text-decoration:none;
+}
+
+.cart-badge{
+    position:absolute;
+    top:-10px;
+    right:-14px;
+    background:#FFD700;
+    color:#111;
+    font-size:12px;
+    font-weight:bold;
+    min-width:18px;
+    height:18px;
+    border-radius:50%;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:0 4px;
+}
+
+/* ================= BANNER ================= */
+
+.about-banner{
+    text-align:center;
+    padding:70px 20px;
+}
+
+.about-banner h1{
+    font-size:50px;
+    color:#FFD700;
+    margin-bottom:15px;
+}
+
+.about-banner p{
+    font-size:20px;
+    color:#ccc;
+}
+
+/* ================= ABOUT SECTION ================= */
+
+.about-section{
+    width:90%;
+    margin:60px auto;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:60px;
+}
+
+.about-image{
+    width:45%;
+}
+
+.about-image img{
+    width:100%;
+    border-radius:15px;
+    border:3px solid #FFD700;
+}
+
+.about-content{
+    width:55%;
+}
+
+.about-content h2{
+    font-size:38px;
+    color:#FFD700;
+    margin-bottom:20px;
+}
+
+.about-content p{
+    font-size:18px;
+    color:#ccc;
+    line-height:32px;
+    margin-bottom:20px;
+}
+
+.about-content button{
+    background:#FFD700;
+    color:#111;
+    border:none;
+    padding:15px 35px;
+    font-size:18px;
+    font-weight:bold;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.about-content button:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px #FFD700;
+}
+
+/* ================= MISSION ================= */
+
+.mission{
+    width:85%;
+    margin:80px auto;
+    text-align:center;
+}
+
+.mission h2{
+    color:#FFD700;
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.mission p{
+    color:#ccc;
+    font-size:19px;
+    line-height:32px;
+}
+
+/* ================= FEATURES ================= */
+
+.features{
+    width:90%;
+    margin:80px auto;
+    text-align:center;
+}
+
+.features h2{
+    color:#FFD700;
+    font-size:40px;
+    margin-bottom:50px;
+}
+
+.feature-container{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+}
+
+.feature-card{
+    background:#1b1b1b;
+    padding:30px;
+    border-radius:15px;
+    border:2px solid #333;
+    transition:.3s;
+}
+
+.feature-card:hover{
+    transform:translateY(-10px);
+    border-color:#FFD700;
+    box-shadow:0 0 20px rgba(255,215,0,.5);
+}
+
+.feature-card h3{
+    color:#FFD700;
+    margin-bottom:15px;
+}
+
+.feature-card p{
+    color:#ccc;
+    line-height:28px;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    background:#1b1b1b;
+    text-align:center;
+    padding:25px;
+    margin-top:80px;
+    border-top:2px solid #FFD700;
+}
+
+.footer p{
+    color:#bbb;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .navbar{
+        flex-direction:column;
+        gap:20px;
+        padding:20px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .about-section{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .about-image,
+    .about-content{
+        width:100%;
+    }
+
+    .feature-container{
+        grid-template-columns:1fr;
+    }
+
+    .about-banner h1{
+        font-size:38px;
+    }
+
+}

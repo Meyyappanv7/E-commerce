@@ -1,0 +1,333 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    background:#111;
+    color:white;
+}
+
+/* Navbar */
+
+.navbar{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:20px 80px;
+
+    background:#1b1b1b;
+
+    border-bottom:2px solid #FFD700;
+}
+
+.logo{
+
+    font-size:30px;
+    color:#FFD700;
+    font-weight:bold;
+}
+
+.nav-links{
+
+    display:flex;
+    list-style:none;
+    gap:35px;
+}
+
+.nav-links a{
+
+    text-decoration:none;
+    color:white;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+
+    color:#FFD700;
+}
+
+.login-btn{
+
+    text-decoration:none;
+    background:#FFD700;
+    color:#111;
+    padding:12px 25px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.cart-link{
+    position:relative;
+    color:white;
+    font-size:22px;
+    text-decoration:none;
+}
+
+.cart-badge{
+    position:absolute;
+    top:-10px;
+    right:-14px;
+    background:#FFD700;
+    color:#111;
+    font-size:12px;
+    font-weight:bold;
+    min-width:18px;
+    height:18px;
+    border-radius:50%;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:0 4px;
+}
+
+/* ================= CATEGORY TILES ================= */
+
+.categories{
+    width:90%;
+    margin:20px auto 60px;
+    text-align:center;
+}
+
+.categories h2{
+    color:#FFD700;
+    font-size:32px;
+    margin-bottom:35px;
+}
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+
+.category-card{
+    background:#1b1b1b;
+    border:2px solid #333;
+    border-radius:15px;
+    padding:30px 15px;
+    cursor:pointer;
+    transition:.3s;
+    text-decoration:none;
+    color:white;
+    display:block;
+}
+
+.category-card:hover{
+    transform:translateY(-8px);
+    border-color:#FFD700;
+    box-shadow:0 0 20px rgba(255,215,0,.4);
+}
+
+.category-card .cat-icon{
+    font-size:38px;
+    margin-bottom:15px;
+    display:block;
+}
+
+.category-card h3{
+    color:#FFD700;
+    font-size:19px;
+    margin-bottom:6px;
+}
+
+.category-card p{
+    color:#999;
+    font-size:13px;
+}
+
+/* ================= SECTION TITLE ================= */
+
+.section-title{
+    width:90%;
+    margin:60px auto 30px;
+    text-align:center;
+}
+
+.section-title h2{
+    color:#FFD700;
+    font-size:32px;
+}
+
+.section-title p{
+    color:#999;
+    margin-top:8px;
+}
+
+.stars{
+    color:#FFD700;
+    font-size:14px;
+    margin:8px 0;
+}
+
+.stars span{
+    color:#888;
+    font-size:12px;
+    margin-left:4px;
+}
+
+.heading{
+
+    text-align:center;
+    padding:50px;
+}
+
+.heading h1{
+
+    color:#FFD700;
+    font-size:45px;
+}
+
+.heading p{
+
+    margin-top:15px;
+    color:#ccc;
+}
+
+/* Products */
+
+.product-container{
+
+    width:90%;
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:35px;
+
+    padding-bottom:50px;
+}
+
+.product-card{
+
+    background:#1b1b1b;
+
+    border:2px solid #333;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    padding:20px;
+
+    transition:.3s;
+}
+
+.product-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#FFD700;
+
+    box-shadow:0 0 20px rgba(255,215,0,.5);
+}
+
+.product-card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+}
+
+.product-card h2{
+
+    margin-top:20px;
+
+    color:#FFD700;
+}
+
+.price{
+    margin-top:15px;
+}
+
+.old-price{
+    color:#888;
+    text-decoration:line-through;
+    margin-right:10px;
+    font-size:16px;
+}
+
+.new-price{
+    color:#FFD700;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.starting-price{
+    color:#ccc;
+    margin:10px 0 15px;
+    font-size:14px;
+}
+
+.product-card button{
+
+    width:100%;
+
+    height:45px;
+
+    border:none;
+
+    background:#FFD700;
+
+    color:#111;
+
+    border-radius:8px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.product-card button:hover{
+
+    background:white;
+}
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .navbar{
+        flex-direction:column;
+        gap:20px;
+        padding:20px;
+    }
+
+    .category-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .product-container{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:480px){
+
+    .category-grid{
+        grid-template-columns:1fr;
+    }
+
+    .product-container{
+        grid-template-columns:1fr;
+    }
+}

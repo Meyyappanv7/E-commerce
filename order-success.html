@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopZone | Order Confirmed</title>
+    <style>
+        *{ margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI",sans-serif; }
+        body{
+            background:#111;
+            color:white;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+        }
+        .navbar{
+            display:flex; justify-content:center; align-items:center;
+            padding:20px; background:#1b1b1b; border-bottom:2px solid #FFD700;
+        }
+        .logo{ font-size:28px; color:#FFD700; font-weight:bold; }
+        .success-wrap{
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            padding:40px 20px;
+        }
+        .tick{
+            width:90px; height:90px; border-radius:50%;
+            background:rgba(255,215,0,.1);
+            border:3px solid #FFD700;
+            display:flex; align-items:center; justify-content:center;
+            font-size:46px; color:#FFD700;
+            margin-bottom:25px;
+        }
+        h1{ color:#FFD700; font-size:32px; margin-bottom:12px; }
+        p{ color:#ccc; font-size:16px; max-width:420px; line-height:26px; margin-bottom:8px; }
+        .order-id{ color:#FFD700; font-weight:bold; }
+        .home-btn{
+            margin-top:30px;
+            background:#FFD700;
+            color:#111;
+            padding:14px 34px;
+            border-radius:10px;
+            font-weight:bold;
+            text-decoration:none;
+            transition:.3s;
+        }
+        .home-btn:hover{ background:white; }
+        .footer{ background:#1b1b1b; text-align:center; padding:20px; border-top:2px solid #FFD700; color:#bbb; }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">ShopZone</div>
+    </header>
+
+    <div class="success-wrap">
+        <div class="tick">&#10003;</div>
+        <h1>Order Placed Successfully!</h1>
+        <p>Thank you for shopping with ShopZone. Your order <span class="order-id" id="orderId"></span> has been confirmed and will be delivered soon.</p>
+        <p>A confirmation has been sent to your registered contact details.</p>
+        <a href="product.html" class="home-btn">Continue Shopping</a>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 ShopZone. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById("orderId").textContent =
+            "#SZ" + Math.floor(100000 + Math.random() * 900000);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopZone | Payment</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">ShopZone</div>
+    </header>
+
+    <div class="steps">
+        <div class="step done"><div class="circle">&#10003;</div><span>Cart</span></div>
+        <div class="step-line"></div>
+        <div class="step done"><div class="circle">&#10003;</div><span>Address</span></div>
+        <div class="step-line"></div>
+        <div class="step active"><div class="circle">3</div><span>Payment</span></div>
+    </div>
+
+    <section class="heading">
+        <h1>Choose Payment Method</h1>
+    </section>
+
+    <div class="pay-layout">
+
+        <div class="pay-options">
+
+            <div class="pay-method active" data-method="upi">
+                <div class="pay-method-header"><span class="icon">&#128241;</span> UPI (GPay / PhonePe / Paytm)</div>
+                <div class="pay-method-body">
+                    <div class="pay-apps" style="margin-bottom:16px;">
+                        <button type="button" class="pay-app-btn selected" data-app="Google Pay">Google Pay</button>
+                        <button type="button" class="pay-app-btn" data-app="PhonePe">PhonePe</button>
+                        <button type="button" class="pay-app-btn" data-app="Paytm">Paytm</button>
+                    </div>
+                    <input type="text" id="upiId" placeholder="Enter UPI ID, e.g. name@okhdfcbank">
+                </div>
+            </div>
+
+            <div class="pay-method" data-method="card">
+                <div class="pay-method-header"><span class="icon">&#128179;</span> Credit / Debit Card</div>
+                <div class="pay-method-body">
+                    <input type="text" placeholder="Card Number" maxlength="19">
+                    <div class="form-row">
+                        <input type="text" placeholder="MM / YY" maxlength="5">
+                        <input type="text" placeholder="CVV" maxlength="3">
+                    </div>
+                    <input type="text" placeholder="Name on Card">
+                </div>
+            </div>
+
+            <div class="pay-method" data-method="giftcard">
+                <div class="pay-method-header"><span class="icon">&#127873;</span> Gift Card</div>
+                <div class="pay-method-body">
+                    <input type="text" placeholder="Gift Card Number">
+                    <input type="text" placeholder="Gift Card PIN">
+                </div>
+            </div>
+
+            <button class="pay-btn" id="payBtn">Pay &#8377;<span id="payAmount">0</span></button>
+
+        </div>
+
+        <div class="summary">
+            <h2>Order Summary</h2>
+            <div id="summaryItems"></div>
+            <hr>
+            <div class="summary-row"><span>Subtotal</span><span id="subtotalVal">&#8377;0</span></div>
+            <div class="summary-row"><span>Delivery</span><span id="deliveryVal">&#8377;0</span></div>
+            <hr>
+            <div class="summary-total"><span>Total</span><span id="totalVal">&#8377;0</span></div>
+
+            <div class="deliver-to" id="deliverTo"></div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 ShopZone. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        const items = getCartDetails();
+        if(items.length === 0){
+            window.location.href = "cart.html";
+        }
+
+        document.getElementById("summaryItems").innerHTML = items.map(item => `
+            <div class="summary-row"><span>${item.name} &times; ${item.qty}</span><span>&#8377;${item.price * item.qty}</span></div>
+        `).join("");
+
+        const totals = getCartTotals();
+        document.getElementById("subtotalVal").textContent = "\u20B9" + totals.subtotal;
+        document.getElementById("deliveryVal").textContent = totals.delivery === 0 ? "Free" : "\u20B9" + totals.delivery;
+        document.getElementById("totalVal").textContent = "\u20B9" + totals.total;
+        document.getElementById("payAmount").textContent = totals.total;
+
+        const address = getAddress();
+        if(address){
+            document.getElementById("deliverTo").innerHTML =
+                `<b>Deliver to:</b><br>${address.fullName}, ${address.phone}<br>${address.addressLine}, ${address.city}, ${address.state} - ${address.pincode}`;
+        }
+
+        // Payment method switching
+        document.querySelectorAll(".pay-method").forEach(method => {
+            method.querySelector(".pay-method-header").addEventListener("click", () => {
+                document.querySelectorAll(".pay-method").forEach(m => m.classList.remove("active"));
+                method.classList.add("active");
+            });
+        });
+
+        // UPI app selection
+        document.querySelectorAll(".pay-app-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".pay-app-btn").forEach(b => b.classList.remove("selected"));
+                btn.classList.add("selected");
+            });
+        });
+
+        document.getElementById("payBtn").addEventListener("click", () => {
+            clearCart();
+            window.location.href = "order-success.html";
+        });
+    </script>
+
+</body>
+</html>
